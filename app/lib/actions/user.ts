@@ -4,6 +4,7 @@ import { supabase } from '@/app/config/supabaseClient'
 import { hashPassword, comparePassword } from '@/app/config/bcryptHelper'
 import { getSession } from '@/session'
 import { IMessage } from '../definitions'
+import { redirect } from 'next/navigation'
 
 export const signup = async (prevState: any, formData: FormData): Promise<IMessage> => {
   try{
@@ -50,6 +51,7 @@ export const signin = async (prevState: any, formData: FormData): Promise<IMessa
     .eq('username', username)
     .single()
 
+    if(selectError && selectError.code === 'PGRST116') throw new Error('Invalid credentials')
     if(selectError) throw new Error('Something went wrong, try again')
     
     if(existingRows){
@@ -76,4 +78,5 @@ export const signin = async (prevState: any, formData: FormData): Promise<IMessa
 export const logout = async () => {
   const session = await getSession()
   session.destroy()
+  redirect("/signin");
 }

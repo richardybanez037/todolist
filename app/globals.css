@@ -12,27 +12,37 @@ body{
   background-image:  radial-gradient(#c8efcf 1.7000000000000002px, transparent 1.7000000000000002px), radial-gradient(#c8efcf 1.7000000000000002px, #ffffff 1.7000000000000002px);
   background-size: 68px 68px;
   background-position: 0 0,34px 34px;
+
+  animation: moveToUpperRight 8s linear infinite;
 }
+
+@keyframes moveToUpperRight {
+  0% {
+    background-position: 0 0, 34px 34px;
+  }
+  100% {
+    background-position: 68px -68px, 102px -34px;
+  }
+}
+
 input{
   outline: none;
 }
 
 .loader {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #FFF;
-  border-bottom-color: #FF3D00;
+  border: 6px solid #f0f0f0;
+  border-bottom-color: #ff6c3d;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  }
+}
 
-  @keyframes rotation {
+@keyframes rotation {
   0% {
       transform: rotate(0deg);
   }
   100% {
       transform: rotate(360deg);
   }
-  } 
+} 

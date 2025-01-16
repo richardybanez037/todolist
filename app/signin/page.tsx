@@ -17,7 +17,7 @@ export default function Page() {
       <div>
         <form
           action={formAction}
-          className="flex flex-col border rounded-md p-5 mt-5"
+          className="flex flex-col border rounded-md p-5 mt-5 bg-white"
         >
           <h1 className="text-lg mb-3">Sign in</h1>
           <hr className="mb-2" />

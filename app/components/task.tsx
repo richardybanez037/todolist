@@ -15,7 +15,7 @@ export default function Task({
   taskId: string;
   task: string;
   isChecked: boolean;
-  remove: (taskId: string) => Promise<IMessage>;
+  remove: (taskId: string) => Promise<void>;
   setCheckbox: (taskId: string, isChecked: boolean) => Promise<IMessage>;
 }) {
   const [check, setCheck] = useState(isChecked);

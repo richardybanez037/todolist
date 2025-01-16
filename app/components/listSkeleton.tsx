@@ -1,7 +1,7 @@
 export default function ListSkeleton() {
   return (
     <div className="w-full flex flex-col gap-2">
-      <div className="w-full border flex justify-between p-2 rounded-xl items-center animate-pulse">
+      <div className="w-full border flex justify-between p-2 rounded-xl items-center animate-pulse bg-white">
         <div className="w-full flex gap-2 pr-3">
           <div className="w-6 h-5 bg-gray-200 rounded"></div>
           <div className="w-full flex gap-2">
@@ -14,7 +14,7 @@ export default function ListSkeleton() {
         </div>
       </div>
 
-      <div className="w-full border flex justify-between p-2 rounded-xl items-center animate-pulse">
+      <div className="w-full border flex justify-between p-2 rounded-xl items-center animate-pulse bg-white">
         <div className="w-full flex gap-2 pr-3">
           <div className="w-6 h-5 bg-gray-200 rounded"></div>
           <div className="w-full flex gap-2">
@@ -27,7 +27,7 @@ export default function ListSkeleton() {
         </div>
       </div>
 
-      <div className="w-full border flex justify-between p-2 rounded-xl items-center animate-pulse">
+      <div className="w-full border flex justify-between p-2 rounded-xl items-center animate-pulse bg-white">
         <div className="w-full flex gap-2 pr-3">
           <div className="w-6 h-5 bg-gray-200 rounded"></div>
           <div className="w-full flex gap-2">

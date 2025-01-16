@@ -1,8 +1,7 @@
 "use client";
 
-import { redirect } from "next/navigation";
 import { sessionUsername } from "@/session";
-import { useActionState, useEffect, useState } from "react";
+import { Suspense, useActionState, useEffect, useState } from "react";
 import LogoutIcon from "@/app/assets/logout-svgrepo-com.svg";
 import PlusIcon from "@/app/assets/plus-svgrepo-com.svg";
 import Image from "next/image";
@@ -11,11 +10,16 @@ import { logout } from "./lib/actions/user";
 import { ITask } from "./lib/definitions";
 import { add, all, remove, setCheckbox } from "./lib/actions/todolist";
 import ListSkeleton from "./components/listSkeleton";
+import Loading from "./loading";
 
 export default function Home() {
   const [username, setUsername] = useState("");
   const [todoList, setTodoList] = useState<ITask[]>([]);
   const [message, formAction, isPending] = useActionState(add, null);
+  const [messageLogout, formActionLogout, isPendingLogout] = useActionState(
+    logout,
+    null
+  );
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
@@ -39,20 +43,26 @@ export default function Home() {
     if (isFetching || isPending) fetchTodoList();
   }, [isFetching, isPending]);
 
-  const logoutHandler = async () => {
-    await logout();
-    redirect("/signin");
+  const removeHandler = async (taskId: string) => {
+    const response = await remove(taskId);
+    if (response.ok) {
+      setTodoList((prev) => prev.filter((t) => t.id !== taskId));
+    } else {
+      console.error(response.message);
+    }
   };
-
   return (
-    <div>
+    <Suspense fallback={<Loading />}>
       <header className="flex justify-end p-2">
-        <button
-          className="bg-green-300 p-2 rounded-lg hover:bg-orange-300 duration-150 ease-in-out"
-          onClick={logoutHandler}
-        >
-          <Image src={LogoutIcon} alt="logout" width={20} />
-        </button>
+        <form action={formActionLogout}>
+          <button className="bg-green-300 p-2 rounded-lg hover:bg-orange-300 duration-150 ease-in-out w-9 h-10">
+            {isPendingLogout ? (
+              <span className="loader"></span>
+            ) : (
+              <Image src={LogoutIcon} alt="logout" width={20} />
+            )}
+          </button>
+        </form>
       </header>
       <main className="flex justify-center p-5">
         <div className="flex flex-col items-center gap-2 w-96">
@@ -90,18 +100,7 @@ export default function Home() {
                   taskId={task.id}
                   task={task.task}
                   isChecked={task.isChecked}
-                  remove={async (taskId) => {
-                    const response = await remove(taskId);
-                    if (response.ok) {
-                      setTodoList((prev) =>
-                        prev.filter((t) => t.id !== taskId)
-                      );
-                    } else {
-                      console.error(response.message);
-                    }
-
-                    return response;
-                  }}
+                  remove={() => removeHandler(task.id)}
                   setCheckbox={setCheckbox}
                 />
               ))}
@@ -111,6 +110,6 @@ export default function Home() {
           )}
         </div>
       </main>
-    </div>
+    </Suspense>
   );
 }
